@@ -1,56 +1,58 @@
 import React, { Component } from 'react';
+import { Input, Button,List } from 'antd';
+import store from './store/index'
 import 'antd/dist/antd.css';
-import  store from './store/index.js';
-import {getTodoList, getInputChangeAction, getAddItemAction , getDeleteItemAction} from './store/actionCreators'
-import TodoListUI from './TodoListUI'
 
-class TodoList extends Component {
+export default class TodoList extends Component {
   constructor(props) {
-    super(props);
-    this.state = store.getState();
-    this.InputChange = this.InputChange.bind(this);
-    this.handleStoreChange = this.handleStoreChange.bind(this);
-    this.btnClick= this.btnClick.bind(this);
-    this.handleItemDelete=this.handleItemDelete.bind(this);
-
-    store.subscribe(this.handleStoreChange);
+      super(props);
+      this.state =store.getState();
+      this.changeInputValue = this.changeInputValue.bind(this);
+      this.changeStore = this.changeStore.bind(this);
+      this.handleClick = this.handleClick.bind(this);
+      store.subscribe(this.changeStore);
   }
+   
   render() {
     return (
-      <TodoListUI 
-      inputValue={this.state.inputValue}
-      list={this.state.list}
-      InputChange={this.InputChange}
-      handleStoreChange={this.handleStoreChange}
-      btnClick={this.btnClick}
-      handleItemDelete={this.handleItemDelete}
-      />
+      <div>
+        <Input 
+        value={this.state.inputValue} 
+        inputplaceholder="todo info" 
+        style={{ width: 300 }} 
+        onChange={this.changeInputValue}
+        />
+
+        <Button 
+        type="primary"
+        onClick={this.handleClick}
+        >点击</Button>
+
+        <List
+          style={{width:300}}
+          bordered
+          dataSource={this.state.list}
+          renderItem={item => <List.Item>{item}</List.Item>}
+        />
     
-    )
+      </div>
+    );
   }
-  componentDidMount () {
-   const action = getTodoList();
-   store.dispatch(action);
+  changeInputValue(e) {
+      const action = {
+          type: 'change_input_value',
+          payload: e.target.value
+      }
+      store.dispatch(action);
   }
+  handleClick() {
+      const action = {
+          type: 'add_list',
+      }
+      store.dispatch(action);
+  }
+  changeStore() {
+     this.setState(store.getState());
+  } 
 
-  InputChange(e) {
-    const action =getInputChangeAction(e.target.value);
-    store.dispatch(action);    
-  }
-
-  handleStoreChange() {
-    this.setState(store.getState());
-  }
-
-  btnClick() {
-    const action = getAddItemAction();
-    store.dispatch(action)
-  }
-
-  handleItemDelete(index) {
-    const action = getDeleteItemAction(index) ;
-    store.dispatch(action);
-  }
 }
-
-export default TodoList;
