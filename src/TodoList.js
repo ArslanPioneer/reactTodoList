@@ -3,6 +3,7 @@ import { Button, Input, List } from 'antd';
 import 'antd/dist/antd.css';
 import TodoItem from './TodoItem';
 import store from './store';
+import {CHANGE_INPUT_VALUE,ADD_TODO_ITEM,DELETE_TODO_ITEM} from  './store/actionTypes'
 export default class TodoList extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +48,7 @@ export default class TodoList extends React.Component {
   handleBtnInputValue(e) {
     const action= {
         //
-        type:'change_input_value',
+        type:CHANGE_INPUT_VALUE,
         value:e.target.value
     }
     //传数据给store
@@ -55,7 +56,7 @@ export default class TodoList extends React.Component {
   }
   handleBtnClick() {
    const action={
-       type:'add_todo_item',
+       type:ADD_TODO_ITEM,
    };
    store.dispatch(action);
   }
@@ -63,7 +64,7 @@ export default class TodoList extends React.Component {
   handleBtnDelete(index) {
     console.log(index);
     const action= {
-        type:'delete_todo_item',
+        type:DELETE_TODO_ITEM,
         index
     }
     store.dispatch(action);
