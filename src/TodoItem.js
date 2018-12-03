@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-export default class TodoItem extends Component {
+import PropTypes from 'prop-types';
+ class TodoItem extends Component {
     constructor(props) {
         super(props);
         this.handleClickDelete=this.handleClickDelete.bind(this)
@@ -15,4 +15,14 @@ export default class TodoItem extends Component {
       const {deleteItem, num }=this.props;
       deleteItem(num);
     }
+
+    
 }
+
+TodoItem.propTypes = {
+        data:PropTypes.string,
+        deleteItem:PropTypes.func,
+        num:PropTypes.number
+}
+
+export default TodoItem;
