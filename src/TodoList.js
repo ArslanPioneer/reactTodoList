@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 import TodoListUI from './TodoListUI';
+import axios from 'axios';
 import store from './store';
+import { getInputChangeAction, addItemAction,deleteItemAction} from './store/actionCreators';
 import {
   CHANGE_INPUT_VALUE,
   ADD_TODO_ITEM,
@@ -19,6 +21,16 @@ export default class TodoList extends React.Component {
     store.subscribe(this.handleStoreChange);
   }
 
+  componentDidMount() {
+    axios
+      .get(
+        'https://easy-mock.com/mock/5bdd1c98217bf75be9bd98cd/manager/api/listTest'
+      )
+      .then(res => {
+        const data = res.data.result;
+        console.log(data);
+      });
+  }
   render() {
     return (
       <TodoListUI
@@ -39,27 +51,17 @@ export default class TodoList extends React.Component {
   //   });
   // }
   handleBtnInputValue(e) {
-    const action = {
-      //
-      type: CHANGE_INPUT_VALUE,
-      value: e.target.value
-    };
+    const action=getInputChangeAction(e.target.value);
     //传数据给store
     store.dispatch(action);
   }
   handleBtnClick() {
-    const action = {
-      type: ADD_TODO_ITEM
-    };
+    const action =addItemAction();
     store.dispatch(action);
   }
 
   handleBtnDelete(index) {
-    console.log(index);
-    const action = {
-      type: DELETE_TODO_ITEM,
-      index
-    };
+    const action = deleteItemAction(index);
     store.dispatch(action);
   }
 
