@@ -4,6 +4,7 @@ const defaultState ={
     list: [1,2,3]
 }
 //reducer可以接受state但是绝不能修改state
+//纯函数给定输入才有给定的输出
 export default (state=defaultState,action) => {
     //state上次暂存的数据,action传过来的数据
     console.log(state,action);
