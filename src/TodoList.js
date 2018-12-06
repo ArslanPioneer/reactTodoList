@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import TodoListUI from './TodoListUI';
 import axios from 'axios';
 import store from './store';
-import { getInputChangeAction, addItemAction,deleteItemAction} from './store/actionCreators';
+import { getInputChangeAction, addItemAction,deleteItemAction,initListAction} from './store/actionCreators';
 import {
   CHANGE_INPUT_VALUE,
   ADD_TODO_ITEM,
@@ -28,7 +28,8 @@ export default class TodoList extends React.Component {
       )
       .then(res => {
         const data = res.data.result;
-        console.log(data);
+        const action=initListAction(data);
+        store.dispatch(action);
       });
   }
   render() {
