@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import TodoListUI from './TodoListUI';
 import axios from 'axios';
 import store from './store';
-import {getTodoList, getInputChangeAction, addItemAction,deleteItemAction,initListAction} from './store/actionCreators';
+import {getInitList, getInputChangeAction, addItemAction,deleteItemAction,initListAction} from './store/actionCreators';
 import {
   CHANGE_INPUT_VALUE,
   ADD_TODO_ITEM,
@@ -22,17 +22,9 @@ export default class TodoList extends React.Component {
   }
 
   componentDidMount() {
-    const action=getTodoList();
+   
+    const action=getInitList();
     store.dispatch(action);
-    // axios
-    //   .get(
-    //     'https://easy-mock.com/mock/5bdd1c98217bf75be9bd98cd/manager/api/listTest'
-    //   )
-    //   .then(res => {
-    //     const data = res.data.result;
-    //     const action=initListAction(data);
-    //     store.dispatch(action);
-    //   });
   }
   render() {
     return (
